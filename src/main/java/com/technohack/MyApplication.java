@@ -2,6 +2,7 @@ package com.technohack;
 import com.technohack.config.UserConfiguration;
 import com.technohack.dao.UserDao;
 import com.technohack.entity.User;
+import com.technohack.resources.ApplicationHealthCheck;
 import com.technohack.resources.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -10,6 +11,10 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class MyApplication extends Application<UserConfiguration> {
+
+    // HibernateBundle is a Dropwizard bundle that makes it easy to integrate Hibernate ORM into your Dropwizard application.
+    // It provides a preconfigured Hibernate SessionFactory, as well as various configuration options and
+    // lifecycle management for the SessionFactory
     private final HibernateBundle<UserConfiguration> hibernateBundle =
             new HibernateBundle<UserConfiguration>(User.class) {
                 @Override
@@ -30,10 +35,19 @@ public class MyApplication extends Application<UserConfiguration> {
     @Override
     public void run(UserConfiguration userConfiguration, Environment environment) throws Exception {
         // register resources
+        //  int PORT=userConfiguration.getServerFactory()
         System.out.println("Server is running!");
+
+        // Health Check Api , it will use admin port
+        environment.healthChecks().register(
+                "mysql-database",
+                new ApplicationHealthCheck(hibernateBundle.getSessionFactory())
+        );
+        // Register User Resource
         final UserDao userDao = new UserDao(hibernateBundle.getSessionFactory());
         final UserResource userResource = new UserResource(userDao);
         environment.jersey().register(userResource);
+
     }
 
     @Override
