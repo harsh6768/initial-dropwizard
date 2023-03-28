@@ -15,3 +15,11 @@ databaseResource:
     hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate.show_sql: true
     charSet: UTF-8
+
+swagger:
+  resourcePackage: com.technohack.resources
+  title: User API
+  description: CRUD operations for User entity
+  contact: harshchaurasiya6768@gmail.com
+  license: Apache 2.0
+  version: 1.0.0

@@ -22,6 +22,13 @@ After setting up ... if you change the new terminal mvn -v is not working then f
 
 now open any terminal after saving the file and run mvn -v , now it should work in all the terminals in mac
 
+Swagger Documention : 
+
+Run Get Url In the Server :
+
+http://localhost:3001/api/swagger
+
+
 ## Curl Apis : 
 
 ##### Health Check Api : 

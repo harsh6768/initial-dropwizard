@@ -1,6 +1,6 @@
 package com.technohack.dao;
 
-import com.technohack.entity.User;
+import com.technohack.db.entities.User;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
