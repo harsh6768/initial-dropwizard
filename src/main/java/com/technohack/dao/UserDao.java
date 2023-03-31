@@ -13,16 +13,17 @@ public class UserDao extends AbstractDAO<User> {
     public UserDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
+
     public Optional<User> findById(Long id) {
-        System.out.println("user Id ---->"+id);
+        System.out.println("user Id ---->" + id);
         return Optional.ofNullable(get(id));
     }
 
-    public  User create(User user) {
-        try{
+    public User create(User user) {
+        try {
             return persist(user);
-        }catch(Exception error){
-            System.out.println("Insert Error :"+error);
+        } catch (Exception error) {
+            System.out.println("Insert Error :" + error);
         }
         return user;
     }

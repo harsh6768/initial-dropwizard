@@ -1,4 +1,5 @@
 package com.technohack;
+
 import com.technohack.config.UserConfiguration;
 import com.technohack.dao.UserDao;
 import com.technohack.db.entities.User;
@@ -19,21 +20,21 @@ public class MyApplication extends Application<UserConfiguration> {
     // lifecycle management for the SessionFactory
 
     private HibernateBundle<UserConfiguration> hibernateBundle;
-    private  SwaggerBundle<UserConfiguration> swaggerBundle;
+    private SwaggerBundle<UserConfiguration> swaggerBundle;
 
 
-    private void loadHibernateBundle(Bootstrap<UserConfiguration> bootstrap){
+    private void loadHibernateBundle(Bootstrap<UserConfiguration> bootstrap) {
         hibernateBundle = new HibernateBundle<UserConfiguration>(User.class) {
-                    @Override
-                    public DataSourceFactory getDataSourceFactory(UserConfiguration configuration) {
-                        return configuration.getDatabase();
-                    }
-                };
+            @Override
+            public DataSourceFactory getDataSourceFactory(UserConfiguration configuration) {
+                return configuration.getDatabase();
+            }
+        };
         bootstrap.addBundle(hibernateBundle);
     }
 
-    private  void loadSwaggerBundle(Bootstrap<UserConfiguration> bootstrap){
-        swaggerBundle=new SwaggerBundle<UserConfiguration>() {
+    private void loadSwaggerBundle(Bootstrap<UserConfiguration> bootstrap) {
+        swaggerBundle = new SwaggerBundle<UserConfiguration>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(UserConfiguration userConfiguration) {
                 return userConfiguration.getSwaggerBundleConfiguration();
@@ -43,18 +44,18 @@ public class MyApplication extends Application<UserConfiguration> {
         bootstrap.addBundle(swaggerBundle);
     }
 
-    public static void main(String []args) throws Exception {
-        try{
+    public static void main(String[] args) throws Exception {
+        try {
             new MyApplication().run(args);
-        } catch(Exception error){
-          System.out.println("Error---->"+error);
+        } catch (Exception error) {
+            System.out.println("Error---->" + error);
         }
     }
 
     @Override
     public void run(UserConfiguration userConfiguration, Environment environment) throws Exception {
         // register resources
-        //  int PORT=userConfiguration.getServerFactory()
+//          userConfiguration.getServerFactory().
         System.out.println("Server is running!");
 
         // Health Check Api , it will use admin port
@@ -67,8 +68,17 @@ public class MyApplication extends Application<UserConfiguration> {
         final UserResource userResource = new UserResource(userDao);
         environment.jersey().register(userResource);
 
+        //Custom Serilizer
+//        environment.jersey().register(CustomResponseSerializer.class);
+        // Response Middleware
+//        environment.jersey().register(new ResponseFilter("Hello Harsh"));
+
     }
 
+    // The bootstrap.addBundle() method is used to add a Bundle to a Dropwizard application's bootstrap process.
+    // A bundle is a reusable component that encapsulates various types of functionality that can be added to a Dropwizard application.
+    // When the run() method of the Application class is called, Dropwizard will call the initialize() method of each bundle that has been added to the bootstrap.
+    // This provides an opportunity for the bundle to set up any required configuration, register resources, and perform any other necessary initialization.
     @Override
     public void initialize(Bootstrap<UserConfiguration> bootstrap) {
         //initlization
