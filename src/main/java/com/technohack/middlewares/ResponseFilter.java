@@ -26,10 +26,6 @@ public class ResponseFilter implements  ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-        int status = responseContext.getStatus();
-        String message=responseContext.getEntity().toString();
-        System.out.println("Status :::"+status);
-//        responseContext.setEntity(new CustomResponse(message,status));
         responseContext.getHeaders().add("X-Custom-Header", customHeader);
     }
 

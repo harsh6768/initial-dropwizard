@@ -2,13 +2,12 @@ package com.technohack.resources;
 
 import com.technohack.dao.UserDao;
 import com.technohack.db.entities.User;
-import com.technohack.utils.entities.CustomResponse;
+import com.technohack.utils.CustomResponse;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.ApiOperation;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 

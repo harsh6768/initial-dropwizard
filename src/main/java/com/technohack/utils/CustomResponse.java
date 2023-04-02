@@ -1,4 +1,4 @@
-package com.technohack.utils.entities;
+package com.technohack.utils;
 
 public class CustomResponse {
     private int statusCode;

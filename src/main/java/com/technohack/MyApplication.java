@@ -3,6 +3,8 @@ package com.technohack;
 import com.technohack.config.UserConfiguration;
 import com.technohack.dao.UserDao;
 import com.technohack.db.entities.User;
+import com.technohack.managed.MySqlConnectionManager;
+import com.technohack.middlewares.ResponseFilter;
 import com.technohack.resources.ApplicationHealthCheck;
 import com.technohack.resources.UserResource;
 import io.dropwizard.Application;
@@ -13,6 +15,8 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
+import javax.sql.DataSource;
+
 public class MyApplication extends Application<UserConfiguration> {
 
     // HibernateBundle is a Dropwizard bundle that makes it easy to integrate Hibernate ORM into your Dropwizard application.
@@ -21,6 +25,9 @@ public class MyApplication extends Application<UserConfiguration> {
 
     private HibernateBundle<UserConfiguration> hibernateBundle;
     private SwaggerBundle<UserConfiguration> swaggerBundle;
+
+    public MyApplication() {
+    }
 
 
     private void loadHibernateBundle(Bootstrap<UserConfiguration> bootstrap) {
@@ -54,9 +61,12 @@ public class MyApplication extends Application<UserConfiguration> {
 
     @Override
     public void run(UserConfiguration userConfiguration, Environment environment) throws Exception {
-        // register resources
-//          userConfiguration.getServerFactory().
-        System.out.println("Server is running!");
+
+        // managed objects to manage lifecycle
+        final DataSourceFactory dataSourceFactory = userConfiguration.getDatabase();
+        final DataSource dataSource = dataSourceFactory.build(environment.metrics(), "mysql");
+        MySqlConnectionManager connectionManager = new MySqlConnectionManager(dataSource);
+        environment.lifecycle().manage(connectionManager);
 
         // Health Check Api , it will use admin port
         environment.healthChecks().register(
@@ -68,10 +78,8 @@ public class MyApplication extends Application<UserConfiguration> {
         final UserResource userResource = new UserResource(userDao);
         environment.jersey().register(userResource);
 
-        //Custom Serilizer
-//        environment.jersey().register(CustomResponseSerializer.class);
         // Response Middleware
-//        environment.jersey().register(new ResponseFilter("Hello Harsh"));
+        environment.jersey().register(new ResponseFilter("Hello Harsh"));
 
     }
 

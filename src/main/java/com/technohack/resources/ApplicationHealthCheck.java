@@ -4,8 +4,6 @@ import com.codahale.metrics.health.HealthCheck;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.management.Query;
-
 public class ApplicationHealthCheck extends HealthCheck {
     private final SessionFactory sessionFactory;
 
