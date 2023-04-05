@@ -84,6 +84,17 @@
             <scope>test</scope>
         </dependency>
 
+        <!--  This adds the Lombok library to your project with a scope of "provided",
+                 which means that it will be available at compile time but not included in
+                 the final packaged application.
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
