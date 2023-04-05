@@ -15,6 +15,15 @@ databaseResource:
     hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate.show_sql: true
     charSet: UTF-8
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 5s
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyApplication Health Check */ SELECT 1"
+  # the minimum number of connections to keep open
+  minSize: 8
+  # the maximum number of connections to keep open
+  maxSize: 32
+
 
 swagger:
   resourcePackage: com.technohack.resources
